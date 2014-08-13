@@ -1,7 +1,3 @@
-#
-# Cookbook Name:: drupal
-# Recipe:: drupal
-#
 # Copyright (c) 2014, The University of Queensland
 # All rights reserved.
 #
@@ -27,19 +23,15 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-version = node['drupal']['version'] || 'latest'
-page_url = node['drupal']['download_page'] || 
-  'https://www.drupal.org/project/drupal'
+module ScrapeUrl
 
-case version 
-when 'latest', '7' then
-  url = scrapeUrl(/drupal-7\.\d+\.tar\.gz/, page_url)
-when '6' then
-  url = scrapeUrl(/drupal-6\.\d+\.tar\.gz/, page_url)
-when '7.x-dev', 'dev' then
-  url = scrapeUrl(/drupal-7\.x.tar\.gz/, page_url)
-when '6.x-dev' then
-  url = scrapeUrl(/drupal-6\.x.tar\.gz/, page_url)
-else
-  url = "http://ftp.drupal.org/files/projects/drupal-#{version}.tar.gz"
+  # Fetch a page with a download link or links in it, and scrape the first
+  # URL that contains a given pattern
+  def scrapeUrl(regex, page_url)
+    begin
+      return 
+    rescue 
+      return nil
+    end
+  end
 end
