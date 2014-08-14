@@ -35,9 +35,10 @@ module ScrapeUrl
       end
       f.each do |line|
         m = regex.match(line)
+        puts line
         return m[2] if m
       end
     end
-    raise "Can't find a URL matching #{regex.to_s} in page #{page_url}"
+    raise "Can't find a URL matching /#{regex.source}/ in page #{page_url}"
   end
 end
