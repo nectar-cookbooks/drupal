@@ -30,10 +30,13 @@ module ScrapeUrl
   def scrapeUrl(regex, page_url)
     regex = Regexp.new("(['\"])(['\"]*#{regex.source}['\"]*)\1")
     OpenURI.open_uri(page_url) do |f|
-      raise "Unable to fetch page #{page_url}: status = #{f.status}" unless f.status == 200 
-      f.each |line|
+      if f.status[0] != 200 then
+        raise "Unable to fetch page #{page_url}: status = #{f.status}"
+      end
+      f.each do |line|
         m = regex.match(line)
-      return m[2] if m
+        return m[2] if m
+      end
     end
     raise "Can't find a URL matching #{regex.to_s} in page #{page_url}"
   end
