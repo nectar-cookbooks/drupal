@@ -27,6 +27,8 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+::Chef::Recipe.send(:include, ScraleUrl)
+
 version = node['drupal']['version'] || 'latest'
 page_url = node['drupal']['download_page'] || 
   'https://www.drupal.org/project/drupal'
@@ -43,3 +45,5 @@ when '6.x-dev' then
 else
   url = "http://ftp.drupal.org/files/projects/drupal-#{version}.tar.gz"
 end
+
+raise "url is #{url}"
