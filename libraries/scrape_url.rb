@@ -28,7 +28,7 @@ module ScrapeUrl
   # Fetch a page with a download link or links in it, and scrape the first
   # URL that contains a given pattern
   def scrapeUrl(regex, page_url)
-    regex = Regexp.new("(['\"])(['\"]*#{regex.source}['\"]*)\\1")
+    regex = Regexp.new("(['\"])([^'\"]*#{regex.source}[^'\"]*)\\1")
     OpenURI.open_uri(page_url) do |f|
       if f.status[0] != '200' then
         raise "Unable to fetch page #{page_url}: status = #{f.status}"
