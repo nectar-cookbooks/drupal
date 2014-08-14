@@ -46,4 +46,3 @@ else
   url = "http://ftp.drupal.org/files/projects/drupal-#{version}.tar.gz"
 end
 
-raise "url is #{url}"

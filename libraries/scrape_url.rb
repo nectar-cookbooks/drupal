@@ -35,7 +35,6 @@ module ScrapeUrl
       end
       f.each do |line|
         m = regex.match(line)
-        puts line
         return m[2] if m
       end
     end
