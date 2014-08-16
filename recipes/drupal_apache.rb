@@ -28,3 +28,8 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 include_recipe 'apache2::default'
+
+directory node['apache']['docroot_dir'] do
+  user node['apache']['user']
+  group node['apache']['user']
+end

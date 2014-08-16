@@ -33,7 +33,7 @@ cache = Chef::Config[:file_cache_path]
 version = node['drupal']['version'] || 'latest'
 page_url = node['drupal']['download_page'] || 
   'https://www.drupal.org/project/drupal'
-install_dir = '/var/www/html'
+install_dir = node['apache']['docroot_dir'] 
 
 case version 
 when 'latest', '7' then
