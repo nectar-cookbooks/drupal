@@ -33,6 +33,7 @@ cache = Chef::Config[:file_cache_path]
 version = node['drupal']['version'] || 'latest'
 page_url = node['drupal']['download_page'] || 
   'https://www.drupal.org/project/drupal'
+install_dir = '/var/www/html'
 
 case version 
 when 'latest', '7' then
@@ -48,7 +49,22 @@ else
 end
 
 archive = /.*\/(.*)$/.match(url)[1]
+drupal_root = /^(.*)\.tar\.gz/.match(archive)[1]
+
+package 'tar' do
+end
 
 remote_file "#{cache}/#{archive}" do
   source url 
+end
+
+bash "extract #{archive}" do
+  code <<EOF
+    tar -xfz #{cache}/#{archive}
+    cd #{drupal_root}
+    mv * .htaccess .gitignore ..
+    cd ..
+    rmdir #{drupal_dir}
+EOF
+  cwd install_dir
 end
