@@ -29,6 +29,7 @@
 
 ::Chef::Recipe.send(:include, ScrapeUrl)
 
+cache = Chef::Config[:file_cache_path]
 version = node['drupal']['version'] || 'latest'
 page_url = node['drupal']['download_page'] || 
   'https://www.drupal.org/project/drupal'
@@ -46,3 +47,8 @@ else
   url = "http://ftp.drupal.org/files/projects/drupal-#{version}.tar.gz"
 end
 
+archive = /.*\/(.*)$/.match(url)[1]
+
+remote_file "#{cache}/#{archive}" do
+  source url 
+end
