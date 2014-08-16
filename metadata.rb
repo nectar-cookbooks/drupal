@@ -5,7 +5,7 @@ maintainer "Stephen Crawley"
 maintainer_email "s.crawley at uq dot edu dot au"
 
 depends "mysql"
-depends "apache"
+depends "apache2"
 depends "database"
 depends "php"
 supports "ubuntu"
