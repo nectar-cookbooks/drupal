@@ -64,7 +64,7 @@ bash "extract #{archive}" do
     cd #{drupal_root}
     mv * .htaccess .gitignore ..
     cd ..
-    rmdir #{drupal_dir}
+    rmdir #{drupal_root}
 EOF
   cwd install_dir
 end
