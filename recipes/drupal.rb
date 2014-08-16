@@ -60,7 +60,7 @@ end
 
 bash "extract #{archive}" do
   code <<EOF
-    tar -xfz #{cache}/#{archive}
+    tar -xzf #{cache}/#{archive}
     cd #{drupal_root}
     mv * .htaccess .gitignore ..
     cd ..
