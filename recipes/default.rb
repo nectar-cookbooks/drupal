@@ -29,7 +29,7 @@
 
 raise "Platform not supported (yet)" unless platform_family?('debian')
 
-include_recipe "drupal::drupal_php"
+# include_recipe "drupal::drupal_php"
 include_recipe "drupal::drupal_mysql"
 include_recipe "drupal::drupal_apache"
 include_recipe "drupal::drupal"
