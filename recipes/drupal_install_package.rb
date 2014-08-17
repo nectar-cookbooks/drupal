@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: drupal
-# Recipe:: drupal
+# Recipe:: drupal_install_package
 #
 # Copyright (c) 2014, The University of Queensland
 # All rights reserved.
@@ -27,11 +27,18 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-case node['drupal']['install_method']
-when 'package'
-  include_recipe('drupal::drupal_install_package')
-when 'core'
-  include_recipe('drupal::drupal_install_core')
+version = node['drupal']['version'] || '7'
+install_dir = node['apache']['docroot_dir'] 
+
+case version 
+when 'latest', '7' then
+  package 'drupal7' do
+    action :install
+  end
+when '6' then
+  package 'drupal6' do
+    action :install
+  end
 else
-  raise "Don't grok install method #{node['drupal']['install_method']}"
+  raise "Don't know how to install Drupal version '#{drupal}' from packages"
 end

@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: drupal
-# Recipe:: drupal
+# Recipe:: drupal_install_core
 #
 # Copyright (c) 2014, The University of Queensland
 # All rights reserved.
@@ -27,11 +27,44 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-case node['drupal']['install_method']
-when 'package'
-  include_recipe('drupal::drupal_install_package')
-when 'core'
-  include_recipe('drupal::drupal_install_core')
+::Chef::Recipe.send(:include, ScrapeUrl)
+
+cache = Chef::Config[:file_cache_path]
+version = node['drupal']['version'] || 'latest'
+page_url = node['drupal']['download_page'] || 
+  'https://www.drupal.org/project/drupal'
+install_dir = node['apache']['docroot_dir'] 
+
+case version 
+when 'latest', '7' then
+  url = scrapeUrl(/drupal-7\.\d+\.tar\.gz/, page_url)
+when '6' then
+  url = scrapeUrl(/drupal-6\.\d+\.tar\.gz/, page_url)
+when '7.x-dev', 'dev' then
+  url = scrapeUrl(/drupal-7\.x.tar\.gz/, page_url)
+when '6.x-dev' then
+  url = scrapeUrl(/drupal-6\.x.tar\.gz/, page_url)
 else
-  raise "Don't grok install method #{node['drupal']['install_method']}"
+  url = "http://ftp.drupal.org/files/projects/drupal-#{version}.tar.gz"
+end
+
+archive = /.*\/(.*)$/.match(url)[1]
+drupal_root = /^(.*)\.tar\.gz/.match(archive)[1]
+
+package 'tar' do
+end
+
+remote_file "#{cache}/#{archive}" do
+  source url 
+end
+
+bash "extract #{archive}" do
+  code <<EOF
+    tar -xzf #{cache}/#{archive}
+    cd #{drupal_root}
+    mv * .htaccess .gitignore ..
+    cd ..
+    rmdir #{drupal_root}
+EOF
+  cwd install_dir
 end
