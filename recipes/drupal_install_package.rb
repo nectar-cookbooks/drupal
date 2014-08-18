@@ -47,3 +47,5 @@ bash 'install drupal.conf' do
   code "cp /etc/drupal/#{version}/apache2.conf /etc/apache2/mods-enabled/drupal.conf"
   notifies :restart, "service[apache2]", :delayed
 end
+
+node.override['drupal']['sites_dir'] = "/usr/share/drupal#{version}/"

@@ -35,3 +35,9 @@ when 'core'
 else
   raise "Don't grok install method #{node['drupal']['install_method']}"
 end
+
+sites = node['drupal']['sites_dir']
+
+template "#{sites}/settings.php" do 
+  source 'settings.php.erb'
+end
