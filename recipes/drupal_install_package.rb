@@ -48,4 +48,4 @@ bash 'install drupal.conf' do
   notifies :restart, "service[apache2]", :delayed
 end
 
-node.override['drupal']['sites_dir'] = "/usr/share/drupal#{version}/"
+node.override['drupal']['sites_dir'] = "/usr/share/drupal#{version}/sites"
