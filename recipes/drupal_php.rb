@@ -38,17 +38,21 @@ node.normal['php']['directives'] = {
   'display_errors' => 'Off'
 }
 
+
 include_recipe "php::default"
 
+
 if platform_family?('debian') then
-  # Mysqli is included in ...
-  package "php5-mysql" do
-    action :install
-  end
+  extra_packages = ['php5-mysql', 'php5-json']
 elsif platform_family?('fedora', 'rhel') then
-  package "php-mysqli" do
+  extra_packages = ['php-mysqli']
+else
+  raise "Unsupported platform #{node['platform']}"
+end
+
+extra_packages.each() do |pkg|
+  package pkg do
     action :install
   end
-else
-  raise "Teach me how to install the PHP mysqli extension ..."
 end
+
