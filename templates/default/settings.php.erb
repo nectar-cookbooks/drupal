@@ -180,7 +180,7 @@
  */
 <% 
    dbs = node['drupal']['databases']
-   if dbs && !dbs.empty then
+   if dbs && !dbs.empty? then
      dbs.each do |key, attrs|
        keys = /^([^\/]+)\/([^\/]+)$/.match(key)
        raise "Invalid database keys #{key}" unless keys
