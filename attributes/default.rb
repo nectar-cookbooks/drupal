@@ -20,3 +20,5 @@ node.default['drupal']['site_name'] = nil
 node.default['drupal']['theme_default'] = nil
 node.default['drupal']['anonymous'] = nil
 node.default['drupal']['maintenance_theme'] = nil
+node.default['drupal']['reverse_proxy'] = false
+node.default['drupal']['reverse_proxy_header'] = nil
