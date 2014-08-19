@@ -48,51 +48,51 @@ $drupal_hash_salt = <%= drupal['hash_salt'] %>;
 if (file_exists('baseurl.php')) 
 	include_once('baseurl.php');
 
-
-/**
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
 ini_set('session.gc_maxlifetime', 200000);
 ini_set('session.cookie_lifetime', <%= drupal['session_cookie_lifetime'] %>);
+
 <% if drupal['pcre_backtrack_limit'] then %>
 ini_set('pcre.backtrack_limit', <%= drupal['pcre_backtrack_limit'] %>);
+<% else %>
+# ini_set('pcre.backtrack_limit', 200000);
 <% end %>
+
 <% if drupal['pcre_recursion_limit'] then %>
 ini_set('pcre.recursion_limit', <%= drupal['pcre_recursion_limit'] %>);
+<% else %>
+# ini_set('pcre.recurseion_limit', 200000);
 <% end %>
+
 <% if drupal['cookie_domain'] then %>
 $cookie_domain = '<%= drupal['cookie_domain'] %>';
+<% else %>
+# $cookie_domain = 'example.com';
 <% end %>
-/**
- * Variable overrides:
- *
- * To override specific entries in the 'variable' table for this site,
- * set them here. You usually don't need to use this feature. This is
- * useful in a configuration file for a vhost or directory, rather than
- * the default settings.php. Any configuration setting from the 'variable'
- * table can be given a new value. Note that any values you provide in
- * these variable overrides will not be modifiable from the Drupal
- * administration interface.
- *
- * The following overrides are examples:
- * - site_name: Defines the site's name.
- * - theme_default: Defines the default theme for this site.
- * - anonymous: Defines the human-readable name of anonymous users.
- * Remove the leading hash signs to enable.
- */
-# $conf['site_name'] = 'My Drupal site';
-# $conf['theme_default'] = 'garland';
-# $conf['anonymous'] = 'Visitor';
 
-/**
- * A custom theme can be set for the offline page. This applies when the site
- * is explicitly set to maintenance mode through the administration page or when
- * the database is inactive due to an error. It can be set through the
- * 'maintenance_theme' key. The template file should also be copied into the
- * theme. It is located inside 'modules/system/maintenance-page.tpl.php'.
- * Note: This setting does not apply to installation and update pages.
- */
+<% if drupal['site_name'] then %>
+$conf['site_name'] = '<%= drupal['site_name'] %>';
+<% else %>
+# $conf['site_name'] = 'My Drupal site';
+<% end %>
+
+<% if drupal['theme_default'] then %>
+$conf['theme_default'] = '<%= drupal['theme_default'] %>';
+<% else %>
+# $conf['theme_default'] = 'garland';
+<% end %>
+
+<% if drupal['anonymous'] then %>
+$conf['anonymous'] = '<%= drupal['anonymous']  %>';
+<% else %>
+# $conf['anonymous'] = 'Visitor';
+<% end %>
+<% if drupal['maintenance_theme'] then %>
+$conf['maintenance_theme'] = '<%= drupal['maintenance_theme'] %>';
+<% else %>
 # $conf['maintenance_theme'] = 'bartik';
+<% end %>
 
 /**
  * Enable this setting to determine the correct IP address of the remote

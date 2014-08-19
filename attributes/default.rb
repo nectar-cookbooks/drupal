@@ -16,3 +16,7 @@ node.default['drupal']['session_cookie_lifetime'] = 2000000
 node.default['drupal']['pcre_backtrack_limit'] = nil  # e.g. 200000
 node.default['drupal']['pcre_recursion_limit'] = nil  # e.g. 200000
 node.default['drupal']['cookie_domain'] = nil  # e.g. 'example.com'
+node.default['drupal']['site_name'] = nil
+node.default['drupal']['theme_default'] = nil
+node.default['drupal']['anonymous'] = nil
+node.default['drupal']['maintenance_theme'] = nil
