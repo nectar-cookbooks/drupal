@@ -10,3 +10,9 @@ node.default['drupal']['databases'] = {
     'prefix' => ''
   }
 }
+node.default['drupal']['update_free_access'] = false
+node.default['drupal']['hash_salt'] = "''"    # a PHP expression is required
+node.default['drupal']['session_cookie_lifetime'] = 2000000
+node.default['drupal']['pcre_backtrack_limit'] = nil  # e.g. 200000
+node.default['drupal']['pcre_recursion_limit'] = nil  # e.g. 200000
+node.default['drupal']['cookie_domain'] = nil  # e.g. 'example.com'
