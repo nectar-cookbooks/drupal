@@ -22,3 +22,7 @@ node.default['drupal']['anonymous'] = nil
 node.default['drupal']['maintenance_theme'] = nil
 node.default['drupal']['reverse_proxy'] = false
 node.default['drupal']['reverse_proxy_header'] = nil
+node.default['drupal']['reverse_proxy_addresses'] = nil
+node.default['drupal']['omit_vary_cookie'] = false
+node.default['drupal']['css_gzip_conversion'] = true
+node.default['drupal']['js_gzip_conversion'] = true
