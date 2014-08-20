@@ -26,11 +26,9 @@
        raise "Invalid database keys #{key}" unless keys
 %>
 $databases['<%= keys[1] %>', '<%= keys[2] %>'] = array(
-<%     attrs.each do |attr, val|
-%>
+<%     attrs.each do |attr, val| %>
   '<%= attr %>' => '<%= val %>', 
-<%
-       end
+<%     end
 %>
 );
 <% 
@@ -110,7 +108,7 @@ $conf['reverse_proxy_addresses'] = array(
         '<%= ip %>',
 <%   end %>
 );
-<% else %
+<% else %>
 # $conf['reverse_proxy_addresses'] = array('a.b.c.d', ...);
 <% end %>
 
