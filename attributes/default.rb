@@ -25,4 +25,6 @@ node.default['drupal']['reverse_proxy_header'] = nil
 node.default['drupal']['reverse_proxy_addresses'] = nil
 node.default['drupal']['omit_vary_cookie'] = false
 node.default['drupal']['css_gzip_conversion'] = true
-node.default['drupal']['js_gzip_conversion'] = true
+node.default['drupal']['locale_custom_strings_en'] = {}
+node.default['drupal']['blocked_ips'] = nil
+node.default['drupal']['allow_authorize_operations'] = true
