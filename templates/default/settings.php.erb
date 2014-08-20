@@ -122,7 +122,7 @@ $conf['reverse_proxy_addresses'] = array(
 <% strings = drupal['locale_custom_strings_en']
    if strings && !strings.empty? then %>
 $conf['locale_custom_strings_en'][''] = array(
-<%   strings.each do |f, t] %>
+<%   strings.each do |f, t| %>
         '<%= f %>' => '<%= t %>',
 <%   end
    else %>
