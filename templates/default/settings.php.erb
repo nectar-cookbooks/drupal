@@ -124,8 +124,9 @@ $conf['reverse_proxy_addresses'] = array(
 $conf['locale_custom_strings_en'][''] = array(
 <%   strings.each do |f, t| %>
         '<%= f %>' => '<%= t %>',
-<%   end
-   else %>
+<%   end %>
+);
+<% else %>
 # $conf['locale_custom_strings_en'][''] = array(
 #   'forum'      => 'Discussion board',
 #   '@count min' => '@count minutes',
