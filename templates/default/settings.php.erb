@@ -112,7 +112,7 @@ $conf['reverse_proxy_addresses'] = array(
 # $conf['reverse_proxy_addresses'] = array('a.b.c.d', ...);
 <% end %>
 
-<%= drupal['omit_vary_cookie'] ? '# ' : '' %>$conf['omit_vary_cookie'] = TRUE;
+<%= drupal['omit_vary_cookie'] ? '' : '# ' %>$conf['omit_vary_cookie'] = TRUE;
 
 <%= drupal['css_gzip_compression'] ? '' : '# ' %>$conf['css_gzip_compression'] = FALSE;
 <%= drupal['js_gzip_compression'] ? '' : '# ' %>$conf['js_gzip_compression'] = FALSE;
