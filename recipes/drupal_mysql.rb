@@ -37,7 +37,7 @@ if databases == nil || databases.empty? then
       'database' => node['drupal']['database'],
       'username' => node['drupal']['db_username'],
       'password' => node['drupal']['db_password'],
-      'host' => node['drupal']['db_host'] || node['lamp']['database']['host']
+      'host' => node['drupal']['db_host'] || node['lamp']['database']['host'],
       'prefix' => ''
     }
   }
