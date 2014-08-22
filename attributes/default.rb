@@ -1,15 +1,23 @@
 node.default['drupal']['version'] = 'latest'
 node.default['drupal']['install_method'] = 'package'
-node.default['drupal']['databases'] = {
-  'default/default' => {
-    'driver' => 'mysql',
-    'database' => 'test',
-    'username' => 'foo',
-    'password' => 'secret',
-    'host' => 'localhost',
-    'prefix' => ''
-  }
-}
+node.default['drupal']['databases'] = nil
+
+# {
+#   'default/default' => {
+#     'driver' => 'mysql',
+#     'database' => 'test',
+#     'username' => 'foo',
+#     'password' => 'secret',
+#     'host' => 'localhost',
+#     'prefix' => ''
+#   }
+# }
+
+node.default['drupal']['database'] = 'drupal'
+node.default['drupal']['db_username'] = 'drupal'
+node.default['drupal']['db_password'] = nil
+node.default['drupal']['db_host'] = nil
+
 node.default['drupal']['update_free_access'] = false
 node.default['drupal']['hash_salt'] = "''"    # a PHP expression is required
 node.default['drupal']['session_cookie_lifetime'] = 2000000

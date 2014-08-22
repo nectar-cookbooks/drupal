@@ -29,3 +29,52 @@
 
 include_recipe "lamp::database"
 
+databases = node['drupal']['databases']
+if databases == nil || databases.empty? then
+  databases = {
+    'default/default' => {
+      'driver' => 'mysql',
+      'database' => node['drupal']['database'],
+      'username' => node['drupal']['db_username'],
+      'password' => node['drupal']['db_password'],
+      'host' => node['drupal']['db_host'] || node['lamp']['database']['host']
+      'prefix' => ''
+    }
+  }
+end
+
+databases.each() do |key, map| 
+  raise "Don't have a database name for db #{key}" unless map['database']  
+  raise "Don't have a database host for db #{key}" unless map['host']
+  raise "Don't have a username for db #{key}" unless map['username']
+  raise "Don't have a password for db #{key}" unless map['password']
+  raise "Unsupported driver for db #{key}" unless map['driver'] == 'mysql'
+
+  mysql_connection_info = {
+    'host'     => 'localhost',
+    'username' => 'root',
+    'password' => node['lamp']['database']['root_password']
+  }
+
+  mysql_database map['database'] do
+    connection mysql_connection_info
+    action :create
+  end
+  
+  # Decide what host to limit access to.
+  if map['host'] == 'localhost' || /^127\.[0-9.]+$/.match(map['host']) then
+    myhost = map['host']
+  else 
+    myhost = node['ip_address']
+  end  
+
+  mysql_database_user map['username'] do
+    connection mysql_connection_info
+    password map['password']
+    database_name map ['database']
+    host myhost
+    privileges [:select,:update,:insert,:delete,:create,:drop,:index,:alter,'create temporary tables']
+    require_ssl true
+    action :grant
+  end
+end
