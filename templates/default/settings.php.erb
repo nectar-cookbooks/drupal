@@ -25,7 +25,7 @@
        keys = /^([^\/]+)\/([^\/]+)$/.match(key)
        raise "Invalid database keys #{key}" unless keys
 %>
-$databases['<%= keys[1] %>', '<%= keys[2] %>'] = array(
+$databases['<%= keys[1] %>']['<%= keys[2] %>'] = array(
 <%     attrs.each do |attr, val| %>
   '<%= attr %>' => '<%= val %>', 
 <%     end
