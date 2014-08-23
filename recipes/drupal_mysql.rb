@@ -51,10 +51,14 @@ databases.each() do |key, map|
   raise "Unsupported driver for db #{key}" unless map['driver'] == 'mysql'
 
   mysql_connection_info = {
-    'host'     => 'localhost',
-    'username' => 'root',
-    'password' => node['lamp']['database']['root_password']
+    :host     => 'localhost',
+    :username => 'root',
+    :password => node['lamp']['database']['root_password']
   }
+
+  log "Password is #{mysql_connection_info[:password]}" do
+    level :error
+  end
 
   mysql_database map['database'] do
     connection mysql_connection_info
