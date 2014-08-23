@@ -41,6 +41,7 @@ if databases == nil || databases.empty? then
       'prefix' => ''
     }
   }
+  node.override['drupal']['databases'] = databases
 end
 
 databases.each() do |key, map| 
