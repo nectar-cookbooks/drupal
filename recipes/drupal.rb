@@ -46,5 +46,9 @@ template "#{sites}/baseurl.php" do
   source 'baseurl.php.erb'
 end
 
+template "#{sites}/default/dbconfig.php" do 
+  source 'dbconfig.php.erb'
+end
+
 # TODO (?) - create a cronkey.php file and a crontab entry with that key ...
 #            as per https://api.drupal.org/api/drupal/INSTALL.txt/7

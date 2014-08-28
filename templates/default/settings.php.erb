@@ -19,24 +19,9 @@
 
 <% 
    drupal = node['drupal']
-   dbs = drupal['databases']
-   if dbs && !dbs.empty? then
-     dbs.each do |key, attrs|
-       keys = /^([^\/]+)\/([^\/]+)$/.match(key)
-       raise "Invalid database keys #{key}" unless keys
 %>
-$databases['<%= keys[1] %>']['<%= keys[2] %>'] = array(
-<%     attrs.each do |attr, val| %>
-  '<%= attr %>' => '<%= val %>', 
-<%     end
-%>
-);
-<% 
-     end
-   else 
-%>
+
 $databases = array();
-<% end %>
 require_once('dbconfig.php');
 
 $update_free_access = <%= drupal['update_free_access'] ? 'TRUE' : 'FALSE' %>;
@@ -44,7 +29,7 @@ $update_free_access = <%= drupal['update_free_access'] ? 'TRUE' : 'FALSE' %>;
 $drupal_hash_salt = <%= drupal['hash_salt'] %>;
 
 if (file_exists('baseurl.php')) 
-	include_once('baseurl.php');
+  include_once('baseurl.php');
 
 ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 100);
