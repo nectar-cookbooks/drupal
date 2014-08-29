@@ -57,7 +57,7 @@ databases.each() do |key, map|
     :password => node['lamp']['database']['root_password']
   }
 
-  log "Password is #{mysql_connection_info[:password]}" do
+  log "Password is #{map['password']}" do
     level :error
   end
 
