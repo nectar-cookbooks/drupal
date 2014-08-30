@@ -52,7 +52,7 @@ databases.each() do |key, map|
   raise "Unsupported driver for db #{key}" unless map['driver'] == 'mysql'
 
   mysql_connection_info = {
-    :host     => 'localhost',
+    :host     => '127.0.0.1',
     :username => 'root',
     :password => node['lamp']['database']['root_password']
   }
@@ -67,7 +67,9 @@ databases.each() do |key, map|
   end
   
   # Decide what host to limit access to.
-  if map['host'] == 'localhost' || /^127\.[0-9.]+$/.match(map['host']) then
+  if map['host'] == 'localhost' then
+    myhost = '127.0.0.1'
+  elsif /^127\.[0-9.]+$/.match(map['host']) then
     myhost = map['host']
   else 
     myhost = node['ip_address']
