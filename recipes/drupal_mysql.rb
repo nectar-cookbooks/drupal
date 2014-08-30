@@ -66,20 +66,29 @@ databases.each() do |key, map|
     action :create
   end
   
-  # Decide what host to limit access to.
-  if map['host'] == 'localhost' then
-    myhost = '127.0.0.1'
-  elsif /^127\.[0-9.]+$/.match(map['host']) then
-    myhost = map['host']
-  else 
-    myhost = node['ip_address']
-  end  
+  if false then
+    # Decide what host to limit access to.
+    if map['host'] == 'localhost' then
+      from_host = '127.0.0.1'
+    elsif /^127\.[0-9.]+$/.match(map['host']) then
+      from_host = map['host']
+    else 
+      from_host = node['ip_address']
+    end  
+  else
+    from_host = '%'
+  end
 
   mysql_database_user map['username'] do
     connection mysql_connection_info
     password map['password']
+    host from_host
+    action :create
+  end
+
+  mysql_database_user map['username'] do
+    connection mysql_connection_info
     database_name map ['database']
-    host myhost
     privileges [:select,:update,:insert,:delete,:create,:drop,:index,:alter,'create temporary tables']
     action :grant
   end
