@@ -79,7 +79,6 @@ databases.each() do |key, map|
     database_name map ['database']
     host myhost
     privileges [:select,:update,:insert,:delete,:create,:drop,:index,:alter,'create temporary tables']
-    require_ssl true
     action :grant
   end
 end
