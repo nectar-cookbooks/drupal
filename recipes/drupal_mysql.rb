@@ -52,7 +52,7 @@ databases.each() do |key, map|
   raise "Unsupported driver for db #{key}" unless map['driver'] == 'mysql'
 
   mysql_connection_info = {
-    :host     => '127.0.0.1',
+    :host     => 'localhost',
     :username => 'root',
     :password => node['lamp']['database']['root_password']
   }
