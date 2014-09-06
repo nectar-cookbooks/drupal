@@ -35,20 +35,3 @@ when 'core'
 else
   raise "Don't grok install method #{node['drupal']['install_method']}"
 end
-
-sites = node['drupal']['sites_dir']
-
-template "#{sites}/settings.php" do 
-  source 'settings.php.erb'
-end
-
-template "#{sites}/baseurl.php" do 
-  source 'baseurl.php.erb'
-end
-
-template "#{sites}/default/dbconfig.php" do 
-  source 'dbconfig.php.erb'
-end
-
-# TODO (?) - create a cronkey.php file and a crontab entry with that key ...
-#            as per https://api.drupal.org/api/drupal/INSTALL.txt/7

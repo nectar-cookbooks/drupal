@@ -48,4 +48,36 @@ bash 'install drupal.conf' do
   notifies :restart, "service[apache2]", :delayed
 end
 
-node.override['drupal']['sites_dir'] = "/usr/share/drupal#{version}/sites"
+sites = "/usr/share/drupal#{version}/sites"
+
+template "#{sites}/settings.php" do 
+  source 'settings.php.erb'
+end
+
+template "#{sites}/baseurl.php" do 
+  source 'baseurl.php.erb'
+end
+
+template "#{sites}/default/dbconfig.php" do 
+  source 'dbconfig.php.erb'
+  notifies :run, "ruby_block[announce]", :delayed
+end
+
+# TODO (?) - create a cronkey.php file and a crontab entry with that key ...
+#            as per https://api.drupal.org/api/drupal/INSTALL.txt/7
+
+ruby_block 'announce' do
+  block do
+    puts '*****************************************************************'
+    puts '*****************************************************************'
+    puts 'You need to complete the Drupal installation process as follows: '
+    puts " 1) Use a web browser to visit #{install_url}"
+    puts "    and go through the forms."
+    puts " 2) Secure the settings file by running the following:"
+    puts "    $ sudo chmod 644 #{sites}/default/settings.php"
+    puts "    $ sudo chmod 644 #{sites}/settings.php"
+    puts '*****************************************************************'
+    puts '*****************************************************************'
+  end
+  action :run
+end
