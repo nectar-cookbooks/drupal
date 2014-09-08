@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: drupal
-# Recipe:: drupal_install_package
+# Recipe:: preconfigure
 #
 # Copyright (c) 2014, The University of Queensland
 # All rights reserved.
@@ -27,46 +27,20 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-version = node['drupal']['version'] || '7'
-install_dir = node['apache']['docroot_dir'] 
 
-case version
-when 'latest'
-  version = '7' 
-when '6', '7' then
-  # OK
-else
-  raise "Don't know how to install Drupal version '#{drupal}' from packages"
+template "#{@drupal_sites}/settings.php" do 
+  source 'settings.php.erb'
 end
 
-@drupal_sites = "/usr/share/drupal#{version}/sites"
-
-package "drupal#{version}" do
-  action :install
+template "#{@drupal_sites}/baseurl.php" do 
+  source 'baseurl.php.erb'
 end
 
-bash 'install drupal.conf' do
-  code "cp /etc/drupal/#{version}/apache2.conf /etc/apache2/mods-enabled/drupal.conf"
-  notifies :restart, "service[apache2]", :delayed
+template "#{@drupal_sites}/default/dbconfig.php" do 
+  source 'dbconfig.php.erb'
+  notifies :run, "ruby_block[announce]", :delayed
 end
-
-include_recipe "drupal::preconfigure"
 
 # TODO (?) - create a cronkey.php file and a crontab entry with that key ...
 #            as per https://api.drupal.org/api/drupal/INSTALL.txt/7
 
-ruby_block 'announce' do
-  block do
-    puts '*****************************************************************'
-    puts '*****************************************************************'
-    puts 'You need to complete the Drupal installation process as follows: '
-    puts " 1) Use a web browser to visit #{install_url}"
-    puts "    and go through the forms."
-    puts " 2) Secure the settings file by running the following:"
-    puts "    $ sudo chmod 644 #{@drupal_sites}/default/settings.php"
-    puts "    $ sudo chmod 644 #{@drupal_sites}/settings.php"
-    puts '*****************************************************************'
-    puts '*****************************************************************'
-  end
-  action :run
-end

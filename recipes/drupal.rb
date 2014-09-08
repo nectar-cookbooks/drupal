@@ -30,6 +30,8 @@
 case node['drupal']['install_method']
 when 'package'
   include_recipe('drupal::drupal_install_package')
+when 'drush'
+  include_recipe('drupal::drupal_install_drush')
 when 'core'
   include_recipe('drupal::drupal_install_core')
 else
