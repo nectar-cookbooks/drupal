@@ -49,7 +49,7 @@ bash 'install drupal.conf' do
   notifies :restart, "service[apache2]", :delayed
 end
 
-db = drupal['databases'][0]
+db = drupal['databases']['default/default']
 db_url = "mysql://#{db['username']}:#{db['password']}@" +
   "#{db['host']}/#{db['database']}"
 
