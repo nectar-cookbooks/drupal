@@ -51,7 +51,7 @@ end
 
 db = drupal['databases'][0]
 db_url = "mysql://#{db['username']}:#{db['password']}@" +
-  "#{db['host']/#{db['database']}"
+  "#{db['host']}/#{db['database']}"
 
 drush_execute "site-install" do
   options %W{--db_url=#{db_url}
