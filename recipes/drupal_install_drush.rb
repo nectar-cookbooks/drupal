@@ -44,11 +44,6 @@ end
 
 include_recipe "drush::pear"
 
-bash 'install drupal.conf' do
-  code "cp /etc/drupal/#{version}/apache2.conf /etc/apache2/mods-enabled/drupal.conf"
-  notifies :restart, "service[apache2]", :delayed
-end
-
 db = drupal['databases']['default/default']
 db_url = "mysql://#{db['username']}:#{db['password']}@" +
   "#{db['host']}/#{db['database']}"
@@ -56,4 +51,9 @@ db_url = "mysql://#{db['username']}:#{db['password']}@" +
 drush_execute "site-install" do
   options %W{--db_url=#{db_url}
             #{(db['prefix'] ? "--db_prefix=#{db['prefix']}" : "")}}
+end
+
+bash 'install drupal.conf' do
+  code "cp /etc/drupal/#{version}/apache2.conf /etc/apache2/mods-enabled/drupal.conf"
+  notifies :restart, "service[apache2]", :delayed
 end
