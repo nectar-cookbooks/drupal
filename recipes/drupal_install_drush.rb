@@ -34,15 +34,20 @@ install_dir = node['apache']['docroot_dir']
 case version
 when 'latest'
   version = '7' 
-when '7' then
+when '6', '7' then
   # OK
 else
-  raise "Don't know how to install Drupal version '#{version}' using drush"
+  raise "Don't know how to install Drupal version '#{drupal}' from packages"
 end
 
 @drupal_sites = "/usr/share/drupal#{version}/sites"
 
+package "drupal#{version}" do
+  action :install
+end
+
 include_recipe "drush::pear"
+
 
 db = drupal['databases']['default/default']
 db_url = "mysql://#{db['username']}:#{db['password']}@" +

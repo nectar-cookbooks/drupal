@@ -36,7 +36,7 @@ when 'latest'
 when '6', '7' then
   # OK
 else
-  raise "Don't know how to install Drupal version '#{drupal}' from packages"
+  raise "Don't know how to install Drupal version '#{version}' from packages"
 end
 
 @drupal_sites = "/usr/share/drupal#{version}/sites"
