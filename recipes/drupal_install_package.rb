@@ -39,7 +39,7 @@ else
   raise "Don't know how to install Drupal version '#{version}' from packages"
 end
 
-@drupal_sites = "/usr/share/drupal#{version}/sites"
+$drupal_sites = "/usr/share/drupal#{version}/sites"
 
 package "drupal#{version}" do
   action :install
@@ -63,8 +63,8 @@ ruby_block 'announce' do
     puts " 1) Use a web browser to visit #{install_url}"
     puts "    and go through the forms."
     puts " 2) Secure the settings file by running the following:"
-    puts "    $ sudo chmod 644 #{@drupal_sites}/default/settings.php"
-    puts "    $ sudo chmod 644 #{@drupal_sites}/settings.php"
+    puts "    $ sudo chmod 644 #{$drupal_sites}/default/settings.php"
+    puts "    $ sudo chmod 644 #{$drupal_sites}/settings.php"
     puts '*****************************************************************'
     puts '*****************************************************************'
   end

@@ -40,8 +40,8 @@ else
   raise "Don't know how to install Drupal version '#{drupal}' from packages"
 end
 
-@drupal_installation = "/usr/share/drupal#{version}"
-@drupal_sites = "/usr/share/drupal#{version}/sites"
+drupal_installation = "/usr/share/drupal#{version}"
+$drupal_sites = "/usr/share/drupal#{version}/sites"
 
 package "drupal#{version}" do
   action :install
@@ -53,11 +53,14 @@ include_recipe "drush::pear"
 db = drupal['databases']['default/default']
 db_url = "mysql://#{db['username']}:#{db['password']}@" +
   "#{db['host']}/#{db['database']}"
+opts = ["--db_url=#{db_url}"]
+if db['prefix'] then
+  opts << "--db_prefix=#{db['prefix']}"
+end
 
 drush_execute "site-install" do
-  cwd @drupal_installation
-  options %W{--db_url=#{db_url}
-            #{(db['prefix'] ? "--db_prefix=#{db['prefix']}" : "")}}
+  cwd drupal_installation
+  options opts
 end
 
 bash 'install drupal.conf' do

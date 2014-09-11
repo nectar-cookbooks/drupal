@@ -28,15 +28,15 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-template "#{@drupal_sites}/settings.php" do 
+template "#{$drupal_sites}/settings.php" do 
   source 'settings.php.erb'
 end
 
-template "#{@drupal_sites}/baseurl.php" do 
+template "#{$drupal_sites}/baseurl.php" do 
   source 'baseurl.php.erb'
 end
 
-template "#{@drupal_sites}/default/dbconfig.php" do 
+template "#{$drupal_sites}/default/dbconfig.php" do 
   source 'dbconfig.php.erb'
   notifies :run, "ruby_block[announce]", :delayed
 end
