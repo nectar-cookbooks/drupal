@@ -58,8 +58,8 @@ if db['prefix'] then
   opts << "--db_prefix=#{db['prefix']}"
 end
 
-drush_execute "site-install" do
-  cwd drupal_installation
+drush_cmd "site-install" do
+  drupal_root drupal_installation
   options opts
 end
 
