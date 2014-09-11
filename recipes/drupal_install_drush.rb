@@ -53,9 +53,9 @@ include_recipe "drush::pear"
 db = drupal['databases']['default/default']
 db_url = "mysql://#{db['username']}:#{db['password']}@" +
   "#{db['host']}/#{db['database']}"
-opts = ["--db_url=#{db_url}"]
+opts = ["--db-url=#{db_url}"]
 if db['prefix'] then
-  opts << "--db_prefix=#{db['prefix']}"
+  opts << "--db-prefix=#{db['prefix']}"
 end
 
 drush_cmd "site-install" do
