@@ -40,6 +40,7 @@ else
   raise "Don't know how to install Drupal version '#{drupal}' from packages"
 end
 
+@drupal_installation = "/usr/share/drupal#{version}"
 @drupal_sites = "/usr/share/drupal#{version}/sites"
 
 package "drupal#{version}" do
@@ -54,6 +55,7 @@ db_url = "mysql://#{db['username']}:#{db['password']}@" +
   "#{db['host']}/#{db['database']}"
 
 drush_execute "site-install" do
+  cwd @drupal_installation
   options %W{--db_url=#{db_url}
             #{(db['prefix'] ? "--db_prefix=#{db['prefix']}" : "")}}
 end
