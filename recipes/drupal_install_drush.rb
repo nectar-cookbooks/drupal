@@ -33,11 +33,11 @@ install_dir = node['apache']['docroot_dir']
 
 case version
 when 'latest', '7'
-  version = 'drupal-7' 
+  dl_tag = 'drupal-7' 
 when '6' then
-  version = 'drupal-6'
-when 'dev' then
-  version = 'drupal-7.x'
+  dl_tag = 'drupal-6'
+else
+  raise "I don't understand Drupal version #{version}"
 end
 
 drupal_installation = "/usr/share/drupal#{version}"
@@ -46,8 +46,8 @@ $drupal_sites = "/usr/share/drupal#{version}/sites"
 include_recipe "drush::pear"
 
 drush_cmd "dl" do
-  arguments version
-  drupal_root drupal_installation  
+  arguments dl_tag
+  opts [ "--destination=#{drupal_installation}" ]
 end
 
 db = drupal['databases']['default/default']
