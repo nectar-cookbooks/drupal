@@ -48,7 +48,8 @@ databases.each() do |key, map|
   raise "Don't have a database name for db #{key}" unless map['database']  
   raise "Don't have a database host for db #{key}" unless map['host']
   raise "Don't have a username for db #{key}" unless map['username']
-  raise "Don't have a password for db #{key}" unless map['password']
+  raise "Don't have a password for db #{key}" unless (map['password'] || 
+                                                      map['username'] == 'root')
   raise "Unsupported driver for db #{key}" unless map['driver'] == 'mysql'
 
   mysql_connection_info = {
@@ -75,17 +76,19 @@ databases.each() do |key, map|
     from_host = '%'
   end
 
-  mysql_database_user map['username'] do
-    connection mysql_connection_info
-    password map['password']
-    host from_host
-    action :create
-  end
-
-  mysql_database_user map['username'] do
-    connection mysql_connection_info
-    database_name map ['database']
-    privileges [:select,:update,:insert,:delete,:create,:drop,:index,:alter,'create temporary tables']
-    action :grant
+  if map['username'] != 'root' then
+    mysql_database_user map['username'] do
+      connection mysql_connection_info
+      password map['password']
+      host from_host
+      action :create
+    end
+    
+    mysql_database_user map['username'] do
+      connection mysql_connection_info
+      database_name map ['database']
+      privileges [:select,:update,:insert,:delete,:create,:drop,:index,:alter,'create temporary tables']
+      action :grant
+    end
   end
 end
