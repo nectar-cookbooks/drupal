@@ -48,8 +48,11 @@ databases.each() do |key, map|
   raise "Don't have a database name for db #{key}" unless map['database']  
   raise "Don't have a database host for db #{key}" unless map['host']
   raise "Don't have a username for db #{key}" unless map['username']
-  raise "Don't have a password for db #{key}" unless (map['password'] || 
-                                                      map['username'] == 'root')
+  if map['username'] == 'root' then
+    map['password'] ||= node['lamp']['database']['root_password']
+  else
+    raise "Don't have a password for db #{key}" unless map['password']
+  end
   raise "Unsupported driver for db #{key}" unless map['driver'] == 'mysql'
 
   mysql_connection_info = {
