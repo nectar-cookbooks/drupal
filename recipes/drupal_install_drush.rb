@@ -54,7 +54,7 @@ db = drupal['databases']['default/default']
 db_url = "mysql://#{db['username']}:#{db['password']}@" +
   "#{db['host']}/#{db['database']}"
 opts = ["--db-url=#{db_url}"]
-if db['prefix'] then
+if db['prefix'] && db['prefix'] != '' then
   opts << "--db-prefix=#{db['prefix']}"
 end
 
