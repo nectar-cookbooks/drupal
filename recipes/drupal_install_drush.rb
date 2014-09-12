@@ -47,7 +47,7 @@ include_recipe "drush::pear"
 
 drush_cmd "dl" do
   arguments dl_tag
-  opts [ "--destination=#{drupal_installation}" ]
+  options [ "--destination=#{drupal_installation}" ]
 end
 
 db = drupal['databases']['default/default']
