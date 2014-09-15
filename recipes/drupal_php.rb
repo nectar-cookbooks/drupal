@@ -43,9 +43,13 @@ include_recipe "php::default"
 
 
 if platform_family?('debian') then
-  extra_packages = ['php5-mysql', 'php5-json']
+  extra_packages = ['php5-mysqli', 'php5-json', 'php5-gd']
 elsif platform_family?('fedora', 'rhel') then
-  extra_packages = ['php-mysqli']
+  # There is no php-json package, but for rhel 6 and later 
+  # php has json enabled by default.  If necessary:
+  # $ yum install php-devel php-pear gcc
+  # $ pecl install json
+  extra_packages = ['php-mysqli', 'php-gd']
 else
   raise "Unsupported platform #{node['platform']}"
 end

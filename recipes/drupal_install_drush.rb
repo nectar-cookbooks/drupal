@@ -43,25 +43,26 @@ end
 drupal_installation = "/usr/share/drupal#{version}"
 $drupal_sites = "/usr/share/drupal#{version}/sites"
 
-include_recipe "drush::pear"
+package "drush"
 
-drush_cmd "dl" do
-  arguments dl_tag
-  options [ "--destination=#{drupal_installation}" ]
+bash "download drupal" do
+  command "drush dl #{dl_tag} --destination #{drupal_installation}"
 end
 
 db = drupal['databases']['default/default']
 db_url = "mysql://#{db['username']}:#{db['password']}@" +
   "#{db['host']}/#{db['database']}"
-opts = ["--db-url=#{db_url}"]
+opts = "--db-url=#{db_url} --account-name=admin --account-pass=admin"
 if db['prefix'] && db['prefix'] != '' then
-  opts << "--db-prefix=#{db['prefix']}"
+  opts += " --db-prefix=#{db['prefix']}"
 end
 
-drush_cmd "site-install" do
-  drupal_root drupal_installation
-  options opts
+bash "install drupal" do
+  cwd drupal_installation
+  command "drush si standard #{opts}" 
 end
+
+return
 
 bash 'install drupal.conf' do
   code "cp /etc/drupal/#{version}/apache2.conf /etc/apache2/mods-enabled/drupal.conf"
