@@ -33,20 +33,24 @@ install_dir = node['apache']['docroot_dir']
 
 case version
 when 'latest', '7'
-  dl_tag = 'drupal-7' 
+  dl_tag = 'drupal-7'
+  version = '7'
 when '6' then
   dl_tag = 'drupal-6'
+  version = '6'
 else
   raise "I don't understand Drupal version #{version}"
 end
 
-drupal_installation = "/usr/share/drupal#{version}"
-$drupal_sites = "/usr/share/drupal#{version}/sites"
+drupal_dest = "/usr/share/"
+drupal_installation = "#{drupal_dest}/drupal#{version}"
+$drupal_sites = "#{drupal_installation}/sites"
 
 package "drush"
 
 bash "download drupal" do
-  code "drush dl #{dl_tag} --yes --destination=#{drupal_installation}"
+  code "drush dl #{dl_tag} --yes --destination=#{drupal_dest} " +
+       "--drupal-project-rename=drupal-#{version}"
 end
 
 db = drupal['databases']['default/default']
