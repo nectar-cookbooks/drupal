@@ -43,7 +43,8 @@ include_recipe "php::default"
 
 
 if platform_family?('debian') then
-  extra_packages = ['php5-mysqli', 'php5-json', 'php5-gd']
+  # The php5-mysql package includes both myqsl and mysqli drivers
+  extra_packages = ['php5-mysql', 'php5-json', 'php5-gd']
 elsif platform_family?('fedora', 'rhel') then
   # There is no php-json package, but for rhel 6 and later 
   # php has json enabled by default.  If necessary:
