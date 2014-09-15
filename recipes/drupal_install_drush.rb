@@ -50,7 +50,7 @@ package "drush"
 
 bash "download drupal" do
   code "drush dl #{dl_tag} --yes --destination=#{drupal_dest} " +
-       "--drupal-project-rename=drupal-#{version}"
+       "--drupal-project-rename=drupal#{version}"
 end
 
 db = drupal['databases']['default/default']
