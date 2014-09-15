@@ -46,7 +46,7 @@ $drupal_sites = "/usr/share/drupal#{version}/sites"
 package "drush"
 
 bash "download drupal" do
-  code "drush dl #{dl_tag} --destination #{drupal_installation}"
+  code "drush dl #{dl_tag} --yes --destination #{drupal_installation}"
 end
 
 db = drupal['databases']['default/default']
@@ -59,7 +59,7 @@ end
 
 bash "install drupal" do
   cwd drupal_installation
-  code "drush si standard #{opts}" 
+  code "drush si standard --yes #{opts}" 
 end
 
 return
