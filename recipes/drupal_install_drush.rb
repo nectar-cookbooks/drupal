@@ -66,9 +66,11 @@ bash "install drupal" do
   code "drush si standard --yes #{opts}" 
 end
 
-return
-
-bash 'install drupal.conf' do
-  code "cp /etc/drupal/#{version}/apache2.conf /etc/apache2/mods-enabled/drupal.conf"
+template "/etc/apache2/mods-enabled/drupal.conf" do
+  source "apache2.conf.erb"
+  variables ({
+               'version' => version,
+               'drupal_installation' => drupal_installation
+  })
   notifies :restart, "service[apache2]", :delayed
 end

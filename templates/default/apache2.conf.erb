@@ -1,0 +1,8 @@
+Alias /drupal<%= @version %> <%= @drupal_installation %>
+
+<Directory <%= @drupal_installation %>>
+        Options +FollowSymLinks
+        AllowOverride All
+        order allow,deny
+        allow from all
+</Directory>
