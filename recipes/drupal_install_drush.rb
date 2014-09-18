@@ -61,8 +61,16 @@ if db['prefix'] && db['prefix'] != '' then
   opts += " --db-prefix=#{db['prefix']}"
 end
 
+directory drupal_installation do
+  owner "www-data"
+  group "www-data"
+  mode  0755
+end
+
 bash "install drupal" do
   cwd drupal_installation
+  user "www-data"
+  group "www-data"
   code "drush si standard --yes #{opts}" 
 end
 
