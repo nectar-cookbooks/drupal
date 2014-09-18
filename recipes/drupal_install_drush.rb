@@ -48,17 +48,10 @@ $drupal_sites = "#{drupal_installation}/sites"
 
 package "drush"
 
-directory drupal_installation do
-  owner "www-data"
-  group "www-data"
-  mode  0755
-end
-
 bash "download drupal" do
   code "drush dl #{dl_tag} --yes --destination=#{drupal_dest} " +
-       "--drupal-project-rename=drupal#{version}"
-  user "www-data"
-  group "www-data"
+       "--drupal-project-rename=drupal#{version} && " +
+       "chown -R www-data:www-data #{drupal_installation}"
 end
 
 db = drupal['databases']['default/default']
