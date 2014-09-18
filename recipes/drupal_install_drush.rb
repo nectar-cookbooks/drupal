@@ -48,9 +48,17 @@ $drupal_sites = "#{drupal_installation}/sites"
 
 package "drush"
 
+directory drupal_installation do
+  owner "www-data"
+  group "www-data"
+  mode  0755
+end
+
 bash "download drupal" do
   code "drush dl #{dl_tag} --yes --destination=#{drupal_dest} " +
        "--drupal-project-rename=drupal#{version}"
+  user "www-data"
+  group "www-data"
 end
 
 db = drupal['databases']['default/default']
@@ -59,12 +67,6 @@ db_url = "mysql://#{db['username']}:#{db['password']}@" +
 opts = "--db-url=#{db_url} --account-name=admin --account-pass=admin"
 if db['prefix'] && db['prefix'] != '' then
   opts += " --db-prefix=#{db['prefix']}"
-end
-
-directory drupal_installation do
-  owner "www-data"
-  group "www-data"
-  mode  0755
 end
 
 bash "install drupal" do
