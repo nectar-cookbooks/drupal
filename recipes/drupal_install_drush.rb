@@ -67,6 +67,7 @@ bash "install drupal" do
   user "www-data"
   group "www-data"
   code "drush si standard --yes #{opts}" 
+  notifies :restart, "service[apache2]", :delayed
 end
 
 template "/etc/apache2/mods-enabled/drupal.conf" do
